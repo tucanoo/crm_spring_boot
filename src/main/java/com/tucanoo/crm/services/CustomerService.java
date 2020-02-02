@@ -24,14 +24,4 @@ public class CustomerService {
 
         return customerRepository.findAll(customerDatatableFilter, pageable);
     }
-
-//    public Customer get(Long id) {
-//        return customerRepository.findById(id).get();
-//    }
-//
-//    public Customer update(Customer customer) {
-//        Customer existingCustomer = customerRepository.findById(customer.getId()).get();
-//        BeanUtils.copyProperties(customer, existingCustomer);
-//        return customerRepository.save(customer);
-//    }
 }
