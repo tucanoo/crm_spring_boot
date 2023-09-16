@@ -998,3 +998,4 @@ insert into customer (id, first_name, last_name, email_address, address, city, c
 insert into customer (id, first_name, last_name, email_address, address, city, country, phone_number) values (998, 'Cozmo', 'Curro', 'ccurrorp@bloglovin.com', '739 Warrior Point', 'San Diego', 'United States', '+1 (858) 272-5280');
 insert into customer (id, first_name, last_name, email_address, address, city, country, phone_number) values (999, 'Kurtis', 'Ockleshaw', 'kockleshawrq@vinaora.com', '0 Sunnyside Drive', 'Kirovskiy', 'Russia', '+7 (848) 488-5506');
 insert into customer (id, first_name, last_name, email_address, address, city, country, phone_number) values (1000, 'Clara', 'Sturmey', 'csturmeyrr@last.fm', '245 Emmet Center', 'Sokodé', 'Togo', '+228 (273) 876-8920');
+ALTER TABLE CUSTOMER ALTER COLUMN id RESTART WITH 1001;

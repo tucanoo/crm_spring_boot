@@ -1,11 +1,15 @@
 package com.tucanoo.crm.data.specifications;
 
 import com.tucanoo.crm.data.entities.Customer;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import org.springframework.util.StringUtils;
 
-import javax.persistence.criteria.*;
 import java.util.ArrayList;
 
-public class CustomerDatatableFilter implements org.springframework.data.jpa.domain.Specification<Customer>{
+public class CustomerDatatableFilter implements org.springframework.data.jpa.domain.Specification<Customer> {
 
     String userQuery;
 
@@ -17,7 +21,7 @@ public class CustomerDatatableFilter implements org.springframework.data.jpa.dom
     public Predicate toPredicate(Root<Customer> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         ArrayList<Predicate> predicates = new ArrayList<>();
 
-        if (userQuery != null && userQuery != "") {
+        if (StringUtils.hasText(userQuery)) {
             predicates.add(criteriaBuilder.like(root.get("firstName"), '%' + userQuery + '%'));
             predicates.add(criteriaBuilder.like(root.get("lastName"), '%' + userQuery + '%'));
             predicates.add(criteriaBuilder.like(root.get("city"), '%' + userQuery + '%'));
@@ -26,6 +30,6 @@ public class CustomerDatatableFilter implements org.springframework.data.jpa.dom
             predicates.add(criteriaBuilder.like(root.get("country"), '%' + userQuery + '%'));
         }
 
-        return (! predicates.isEmpty() ? criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()])) : null);
+        return (!predicates.isEmpty() ? criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()])) : null);
     }
 }

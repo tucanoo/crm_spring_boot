@@ -5,6 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tucanoo.crm.data.entities.Customer;
 import com.tucanoo.crm.data.repositories.CustomerRepository;
 import com.tucanoo.crm.services.CustomerService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,34 +18,25 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/customer")
 public class CustomerWebController {
 
-    @Autowired
     private final CustomerRepository customerRepository;
-
-    @Autowired
     private final CustomerService customerService;
-
-    public CustomerWebController(CustomerRepository customerRepository, CustomerService customerService) {
-        this.customerRepository = customerRepository;
-        this.customerService = customerService;
-    }
-
 
     @GetMapping
     public String index() {
         return "/customer/index.html";
     }
 
-    @RequestMapping(value = "/data_for_datatable", method = RequestMethod.GET, produces = "application/json")
+    @GetMapping(value = "/data_for_datatable", produces = "application/json")
     @ResponseBody
     public String getDataForDatatable(@RequestParam Map<String, Object> params) {
         int draw = params.containsKey("draw") ? Integer.parseInt(params.get("draw").toString()) : 1;
@@ -124,7 +117,7 @@ public class CustomerWebController {
             else
                 atts.addFlashAttribute("message", "Customer update failed.");
 
-            return "redirect:/customer/";
+            return "redirect:/customer";
         }
     }
 
@@ -148,7 +141,7 @@ public class CustomerWebController {
             else
                 atts.addFlashAttribute("message", "Customer creation failed.");
 
-            return "redirect:/customer/";
+            return "redirect:/customer";
         }
     }
 
@@ -161,7 +154,7 @@ public class CustomerWebController {
 
         atts.addFlashAttribute("message", "Customer deleted.");
 
-        return "redirect:/customer/";
+        return "redirect:/customer";
     }
 
 }
