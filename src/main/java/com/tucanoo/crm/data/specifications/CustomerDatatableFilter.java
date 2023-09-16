@@ -22,12 +22,14 @@ public class CustomerDatatableFilter implements org.springframework.data.jpa.dom
         ArrayList<Predicate> predicates = new ArrayList<>();
 
         if (StringUtils.hasText(userQuery)) {
-            predicates.add(criteriaBuilder.like(root.get("firstName"), '%' + userQuery + '%'));
-            predicates.add(criteriaBuilder.like(root.get("lastName"), '%' + userQuery + '%'));
-            predicates.add(criteriaBuilder.like(root.get("city"), '%' + userQuery + '%'));
-            predicates.add(criteriaBuilder.like(root.get("emailAddress"), '%' + userQuery + '%'));
-            predicates.add(criteriaBuilder.like(root.get("phoneNumber"), '%' + userQuery + '%'));
-            predicates.add(criteriaBuilder.like(root.get("country"), '%' + userQuery + '%'));
+            String lowerCaseQuery = userQuery.toLowerCase();  // Convert query to lowercase
+
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("firstName")), '%' + lowerCaseQuery + '%'));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("lastName")), '%' + lowerCaseQuery + '%'));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("city")), '%' + lowerCaseQuery + '%'));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("emailAddress")), '%' + lowerCaseQuery + '%'));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("phoneNumber")), '%' + lowerCaseQuery + '%'));
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("country")), '%' + lowerCaseQuery + '%'));
         }
 
         return (!predicates.isEmpty() ? criteriaBuilder.or(predicates.toArray(new Predicate[predicates.size()])) : null);

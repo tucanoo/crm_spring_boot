@@ -44,40 +44,40 @@
             <input name="id" type="hidden" th:value="${customerInstance.id}"/>
 
             <div class="row">
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>First Name</label>
                     <input class="form-control" name="firstName" th:value="${customerInstance?.firstName}"/>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>Last Name</label>
                     <input class="form-control" name="lastName" th:value="${customerInstance?.lastName}"/>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>Email Address</label>
                     <input class="form-control" name="emailAddress" th:value="${customerInstance?.emailAddress}"/>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>Phone Number</label>
                     <input class="form-control" name="phoneNumber" th:value="${customerInstance?.phoneNumber}"/>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col">
+                <div class="form-group col mb-3">
                     <label>Address</label>
                     <input class="form-control" name="address" th:value="${customerInstance?.address}"/>
                 </div>
             </div>
 
             <div class="row">
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>City</label>
                     <input class="form-control" name="city" th:value="${customerInstance?.city}"/>
                 </div>
-                <div class="form-group col-6">
+                <div class="form-group col-6 mb-3">
                     <label>Country</label>
                     <input class="form-control" name="country" th:value="${customerInstance?.country}"/>
                 </div>
@@ -85,7 +85,7 @@
 
             <div class="row">
                 <div class="col">
-                    <button type="submit" class="btn btn-success btn-block">Save Changes</button>
+                    <button type="submit" class="btn btn-success w-100">Save Changes</button>
                 </div>
             </div>
         </form>
