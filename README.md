@@ -1,4 +1,5 @@
 # Spring Boot CRM  
+## Part Two - Authentication with Spring Security
 
 > A simple customer management system built in spring boot to
 > demonstrate basic CRUD operations.
@@ -8,4 +9,4 @@ Database: In memory H2 with 1000 records of fictitious customer data loaded at r
   
 UI based on Twitter Bootstrap.  
   
-A related tutorial for this project can be found at [https://tucanoo.com/build-a-crm-with-spring-boot-and-thymeleaf/](https://tucanoo.com/build-a-crm-with-spring-boot-and-thymeleaf/)
+A related tutorial for this project can be found at [https://tucanoo.com/spring-boot-crm-tutorial-part-2-authentication/](https://tucanoo.com/spring-boot-crm-tutorial-part-2-authentication/)
