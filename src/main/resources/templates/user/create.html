@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Simple CRM - Customer Management made Simple</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<nav th:replace="~{/layout/navbar}"/>
+
+<div class="container" style="margin-top:80px">
+
+    <h1 class="pb-2 border-bottom row">
+        <span class="col-12 col-sm-6 pb-4">New user details</span>
+        <span class="col-12 col-sm-6 text-sm-end pb-4">
+            <a href="/user" class="btn btn-primary d-block d-sm-inline-block">Back to list</a>
+        </span>
+    </h1>
+
+
+    <div class="mt-5 card card-body col-12 col-md-6 offset-md-3 bg-light">
+
+        <form action="/user/save" th:object="${userInstance}" class="form" method="post">
+
+            <div class="alert alert-danger" th:if="${! #fields.errors('all').isEmpty()}">
+                <ul>
+                    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+                        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span>
+                        <span th:text="${e.message}">The error message</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12 col-sm-6 mb-3">
+                    <label>Full name</label>
+                    <input class="form-control" name="fullName" th:value="${userInstance?.fullName}" required
+                           autofocus/>
+                </div>
+                <div class="form-group col-12 col-sm-6 mb-3">
+                    <label>Role</label>
+                    <select th:field="*{role}" class="form-control form-select" required>
+                        <option th:value="ROLE_ADMIN" th:text="'Administrator'"></option>
+                        <option th:value="ROLE_USER" th:text="'Standard User'"></option>
+                        <option th:value="ROLE_READONLY_USER" th:text="'Read Only User'"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12 col-sm-6 mb-3">
+                    <label>Username</label>
+                    <input class="form-control" name="username" th:value="${userInstance?.username}" required/>
+                </div>
+                <div class="form-group col-12 col-sm-6 mb-3">
+                    <label>Password</label>
+                    <input class="form-control" name="password" type="password" required/>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-success w-100">Create user</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer th:replace="~{/layout/footer}"/>
+</body>
+</html>

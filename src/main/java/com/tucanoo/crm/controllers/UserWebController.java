@@ -2,9 +2,10 @@ package com.tucanoo.crm.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tucanoo.crm.data.entities.Customer;
-import com.tucanoo.crm.data.repositories.CustomerRepository;
-import com.tucanoo.crm.services.CustomerService;
+import com.tucanoo.crm.data.entities.User;
+import com.tucanoo.crm.data.repositories.UserRepository;
+import com.tucanoo.crm.dto.UserDTO;
+import com.tucanoo.crm.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -24,16 +25,16 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/customer")
-public class CustomerWebController {
+@RequestMapping("/user")
+public class UserWebController {
 
-    private final CustomerRepository customerRepository;
-    private final CustomerService customerService;
+    private final UserRepository userRepository;
+    private final UserService userService;
     private final ObjectMapper objectMapper;
 
     @GetMapping
     public String index() {
-        return "/customer/index";
+        return "/user/index.html";
     }
 
     @GetMapping(value = "/data_for_datatable", produces = "application/json")
@@ -60,20 +61,18 @@ public class CustomerWebController {
 
         String queryString = (String) (params.get("search[value]"));
 
-        Page<Customer> customers = customerService.getCustomersForDatatable(queryString, pageRequest);
+        Page<User> users = userService.getUsersForDatatable(queryString, pageRequest);
 
-        long totalRecords = customers.getTotalElements();
+        long totalRecords = users.getTotalElements();
 
         List<Map<String, Object>> cells = new ArrayList<>();
-        customers.forEach(customer -> {
+        users.forEach(user -> {
             Map<String, Object> cellData = new HashMap<>();
-            cellData.put("id", customer.getId());
-            cellData.put("firstName", customer.getFirstName());
-            cellData.put("lastName", customer.getLastName());
-            cellData.put("emailAddress", customer.getEmailAddress());
-            cellData.put("city", customer.getCity());
-            cellData.put("country", customer.getCountry());
-            cellData.put("phoneNumber", customer.getPhoneNumber());
+            cellData.put("id", user.getId());
+            cellData.put("username", user.getUsername());
+            cellData.put("fullName", user.getFullName());
+            cellData.put("enabled", user.getEnabled());
+            cellData.put("dateCreated", user.getDateCreated());
             cells.add(cellData);
         });
 
@@ -94,74 +93,64 @@ public class CustomerWebController {
         return json;
     }
 
-    @GetMapping("/show/{id}")
-    public String show(@PathVariable String id, Model model) {
-        Customer customerInstance = customerRepository.findById(Long.valueOf(id)).get();
-
-        model.addAttribute("customerInstance", customerInstance);
-
-        return "/customer/show";
-    }
-
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable String id, Model model) {
-        Customer customerInstance = customerRepository.findById(Long.valueOf(id)).get();
+        User userInstance = userRepository.findById(Long.valueOf(id)).get();
 
-        model.addAttribute("customerInstance", customerInstance);
+        model.addAttribute("userInstance", userInstance);
 
-        return "/customer/edit";
+        return "/user/edit.html";
     }
 
     @PostMapping("/update")
-    public String update(@Valid @ModelAttribute("customerInstance") Customer customerInstance,
+    public String update(@Valid @ModelAttribute("userInstance") UserDTO userDTO,
                          BindingResult bindingResult,
-                         Model model,
                          RedirectAttributes atts) {
         if (bindingResult.hasErrors()) {
-            return "/customer/edit";
+            return "/user/edit.html";
         } else {
-            if (customerRepository.save(customerInstance) != null)
-                atts.addFlashAttribute("message", "Customer updated successfully");
+            if (userService.updateUser(userDTO) != null)
+                atts.addFlashAttribute("message", "User updated successfully");
             else
-                atts.addFlashAttribute("message", "Customer update failed.");
+                atts.addFlashAttribute("message", "User update failed.");
 
-            return "redirect:/customer";
+            return "redirect:/user";
         }
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("customerInstance", new Customer());
-        return "/customer/create";
+        model.addAttribute("userInstance", new User());
+        return "/user/create.html";
     }
 
     @PostMapping("/save")
-    public String save(@Valid @ModelAttribute("customerInstance") Customer customerInstance,
+    public String save(@Valid @ModelAttribute("userInstance") UserDTO userDTO,
                        BindingResult bindingResult,
-                       Model model,
                        RedirectAttributes atts) {
         if (bindingResult.hasErrors()) {
-            return "/customer/create";
+            return "/user/create.html";
         } else {
-            if (customerRepository.save(customerInstance) != null)
-                atts.addFlashAttribute("message", "Customer created successfully");
-            else
-                atts.addFlashAttribute("message", "Customer creation failed.");
 
-            return "redirect:/customer";
+            if (userService.createNewUser(userDTO) != null)
+                atts.addFlashAttribute("message", "User created successfully");
+            else
+                atts.addFlashAttribute("message", "User creation failed.");
+
+            return "redirect:/user";
         }
     }
 
     @PostMapping("/delete")
     public String delete(@RequestParam Long id, RedirectAttributes atts) {
-        Customer customerInstance = customerRepository.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("Customer Not Found:" + id));
+        User userInstance = userRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("User Not Found:" + id));
 
-        customerRepository.delete(customerInstance);
+        userRepository.delete(userInstance);
 
-        atts.addFlashAttribute("message", "Customer deleted.");
+        atts.addFlashAttribute("message", "User deleted.");
 
-        return "redirect:/customer";
+        return "redirect:/user";
     }
 
 }

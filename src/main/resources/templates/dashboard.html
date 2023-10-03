@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title>Simple CRM - Customer Management made Simple</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<nav th:replace="~{/layout/navbar}"/>
+
+<div class="container" style="margin-top:80px">
+    <div>
+        <h1>Welcome to simple crm</h1>
+        <h2>Customer Management made Simple</h2>
+    </div>
+
+    <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+    <p class="mt-5"><a href="/customer" class="btn btn-primary w-100">Manage Customers</a></p>
+
+    <p class="mt-5" sec:authorize="hasRole('ROLE_ADMIN')">
+        <a href="/user" class="btn btn-primary w-100">Manage Users</a>
+    </p>
+</div>
+
+<footer th:replace="~{/layout/footer}"/>
+</body>
+</html>

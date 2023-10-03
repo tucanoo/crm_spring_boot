@@ -8,13 +8,9 @@
 
 </head>
 <body>
-<nav class="navbar navbar-dark bg-dark fixed-top">
-    <div class="container">
-        <div class="navbar-header">
-            <a class="navbar-brand" href="/">Simple CRM</a>
-        </div>
-    </div>
-</nav>
+
+<nav th:replace="~{/layout/navbar}"/>
+
 <div class="container" style="margin-top:80px">
 
     <h1 class="pb-2 border-bottom row">
@@ -22,11 +18,11 @@
         <span class="col-12 col-sm-6 text-sm-end pb-4">
             <form action="/customer/delete" method="post" onsubmit="return confirm('Are you sure?');">
                 <input type="hidden" name="id" th:value="${customerInstance.id}"/>
-                <button class="btn btn-outline-danger d-block d-sm-inline-block">Delete Customer</button>
+                <button class="btn btn-outline-danger d-block d-sm-inline-block me-2">Delete Customer</button>
+                <a href="/customer" class="btn btn-primary d-block d-sm-inline-block">Back to list</a>
             </form>
         </span>
     </h1>
-
 
     <div class="mt-5 card card-body bg-light">
 
@@ -91,18 +87,6 @@
         </form>
     </div>
 </div>
-<footer class="footer navbar-dark bg-dark fixed-bottom">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4"></div>
-            <div class="col-md-4">
-                <p class="text-center text-muted">&copy;
-                    <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span>
-                    <a href="https://tucanoo.com">Tucanoo Solutions Ltd.</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
+<footer th:replace="~{/layout/footer}"/>
 </body>
 </html>

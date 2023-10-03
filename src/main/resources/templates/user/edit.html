@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Simple CRM - Customer management made Simple</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+
+</head>
+<body>
+
+<nav th:replace="~{/layout/navbar}"/>
+
+<div class="container" style="margin-top:80px">
+
+    <h1 class="pb-2 border-bottom row">
+        <span class="col-12 col-sm-6 pb-4">User: <span th:text="${userInstance.id}"></span> </span>
+        <span class="col-12 col-sm-6 text-sm-end pb-4">
+            <form action="/user/delete" method="post" onsubmit="return confirm('Are you sure?');">
+                <input type="hidden" name="id" th:value="${userInstance.id}"/>
+
+                <button th:if="${#authentication.principal.username != userInstance.username}"
+                        class="btn btn-outline-danger d-block d-sm-inline-block me-2">Delete user</button>
+                <a href="/user" class="btn btn-primary d-block d-sm-inline-block">Back to list</a>
+            </form>
+        </span>
+    </h1>
+
+
+    <div class="mt-5 card card-body bg-light">
+
+        <form action="/user/update" th:object="${userInstance}" class="form" method="post">
+
+            <div class="alert alert-danger" th:if="${! #fields.errors('all').isEmpty()}">
+                <ul>
+                    <li th:each="e : ${#fields.detailedErrors()}" th:class="${e.global}? globalerr : fielderr">
+                        <span th:text="${e.global}? '*' : ${e.fieldName}">The field name</span>
+                        <span th:text="${e.message}">The error message</span>
+                    </li>
+                </ul>
+            </div>
+
+            <input name="id" type="hidden" th:value="${userInstance.id}"/>
+
+            <div class="row">
+                <div class="form-group col-6 mb-3">
+                    <label>Username</label>
+                    <input class="form-control" name="username" th:value="${userInstance.username}"/>
+                </div>
+                <div class="form-group col-6 mb-3">
+                    <label>Full name</label>
+                    <input class="form-control" name="fullName" th:value="${userInstance.fullName}"/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-6 mb-3">
+                    <label>Role</label>
+                    <input class="form-control" name="role" th:value="${userInstance.role}"/>
+                </div>
+                <div class="form-group col-6 mb-3">
+
+                    <label>Enabled</label>
+                    <div>
+
+
+                        <div class="form-check form-switch ms-2 pt-1">
+                            <input class="form-check-input fs-5" type="checkbox" name="enabled"
+                                   value="true" th:checked="*{enabled}">
+                        </div>
+
+                        <!--                    <input class="form-control" name="enabled" th:value="${userInstance.enabled}"/>-->
+<!--                        <input class="form-check-input" value="true" type="checkbox" name="enabled"-->
+<!--                               th:checked="*{enabled}"/>-->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-success w-100">Save Changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<footer class="footer navbar-dark bg-dark fixed-bottom">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4"></div>
+            <div class="col-md-4">
+                <p class="text-center text-muted">&copy;
+                    <span th:text="${#dates.format(#dates.createNow(), 'yyyy')}"></span>
+                    <a href="https://tucanoo.com">Tucanoo Solutions Ltd.</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

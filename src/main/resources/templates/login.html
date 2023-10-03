@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Simple CRM - Customer management made Simple</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+</head>
+<body>
+<nav th:replace="~{/layout/navbar}"/>
+<div class="container" style="margin-top:80px">
+    <div class="mb-5">
+        <h1>Welcome to Simple CRM</h1>
+        <h2>Customer Management made Simple</h2>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-4 offset-md-4">
+            <div class="card">
+                <article class="card-body">
+                    <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+                    <hr>
+                    <div class="alert alert-danger" th:if="${param.error}">
+                        Invalid username or password.
+                    </div>
+                    <div class="alert alert-info" th:if="${param.logout}">
+                        You have been logged out.
+                    </div>
+
+                    <form th:action="@{/login}" method="post">
+
+                        <div class="input-group mb-4">
+
+                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                            <input name="username" class="form-control" placeholder="Username" autofocus required>
+                        </div> <!-- input-group.// -->
+
+                        <div class="input-group mb-4">
+                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                            <input name="password" class="form-control" placeholder="******" type="password" required>
+                        </div> <!-- input-group.// -->
+
+                        <button type="submit" class="btn btn-primary w-100"> Login</button>
+
+                    </form>
+                </article>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<footer th:replace="~{/layout/footer}"/>
+
+</body>
+</html>
